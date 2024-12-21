@@ -2,7 +2,6 @@
 schema-version = "0.2"
 id = "dev.veith.uuids"
 name = "UUIDs Generator"
-authors = ["falk@veith.io"]
 
 [io.buildpacks]
 builder = "paketobuildpacks/builder-jammy-full"
