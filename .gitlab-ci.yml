@@ -1,0 +1,11 @@
+include:
+  project: 'veith.dev/devops/gitlab-pipelines'
+  file:
+    - 'NextJs.gitlab-ci.yml'
+variables:
+  IMAGE_NAME: '${CI_REGISTRY_IMAGE}'
+stages:
+  - test
+  - build
+  - release
+  - deploy
