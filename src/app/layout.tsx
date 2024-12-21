@@ -1,9 +1,9 @@
 import type {Metadata} from "next";
 import "./globals.css";
-import { Inter } from 'next/font/google'
+import {Inter} from 'next/font/google'
 import {cn} from "@/lib/utils";
-import { ReactNode } from "react";
-import {ThemeProvider} from "@/components/providers/theme.provider";
+import {ReactNode} from "react";
+import {Providers} from "@/app/providers";
 
 const inter = Inter({
     subsets: ['latin'],
@@ -21,17 +21,25 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-      <html lang="en" className={cn(inter.className, "antialiased")} suppressHydrationWarning={process.env.NODE_ENV === 'production'}>
+      <html lang="en" className={cn(inter.className, "antialiased")} suppressHydrationWarning>
+      <head>
+          <script
+              dangerouslySetInnerHTML={{
+                  __html: `
+                      try {
+                        if (localStorage.theme === 'dark' || ((!('theme' in localStorage) || localStorage.theme === 'system') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#09090b')
+                        }
+                      } catch (_) {}
+                    `,
+              }}
+          />
+      </head>
       <body>
-      <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-      >
-        {children}
-      </ThemeProvider>
+      <Providers>
+          {children}
+      </Providers>
       </body>
-    </html>
+      </html>
   );
 }

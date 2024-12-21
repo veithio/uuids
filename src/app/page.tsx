@@ -2,17 +2,15 @@
 
 
 import {useEffect, useRef, useState} from "react";
-import {useTheme} from "next-themes";
 import {v4 as uuidv4} from 'uuid';
-import {Toggle} from "@/components/ui/toggle";
-import {Check, Copy, Github, Moon, RefreshCw, Sun} from "lucide-react";
+import {Check, Copy, Github, RefreshCw,} from "lucide-react";
 import {motion} from "motion/react"
 import {Button} from "@/components/ui/button";
 import Link from "next/link";
+import {ThemeSwitcher} from "@/app/theme-switcher";
 
 export default function Home() {
   const [uuid, setUuid] = useState('')
-  const {theme, setTheme} = useTheme()
   const [copied, setCopied] = useState(false)
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -37,10 +35,6 @@ export default function Home() {
     }, 1500)
   }
 
-  if (!theme) {
-    return null;
-  }
-
   return (
       <div className="flex flex-col min-h-screen bg-zinc-50 dark:bg-zinc-950">
         <header className="p-4 flex justify-end space-x-0.5 ">
@@ -50,14 +44,7 @@ export default function Home() {
               <span className="sr-only">GitHub</span>
             </Link>
           </Button>
-          <Toggle
-              className="dark:bg-zinc-950 dark:hover:bg-zinc-900"
-              aria-label="Toggle theme"
-              pressed={theme === 'dark'}
-              onPressedChange={(pressed) => setTheme(pressed ? 'dark' : 'light')}
-          >
-            {theme === 'dark' ? <Moon className="h-4 w-4"/> : <Sun className="h-4 w-4"/>}
-          </Toggle>
+          <ThemeSwitcher/>
         </header>
         <main className="flex-grow flex items-center justify-center p-4">
           <motion.div
