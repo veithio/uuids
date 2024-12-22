@@ -4,8 +4,21 @@ include:
     - 'NextJs.gitlab-ci.yml'
 variables:
   IMAGE_NAME: '${CI_REGISTRY_IMAGE}'
+  K8S_NAMESPACE: uuids
+  K8S_DEPLOYMENT: uuids
+  K8S_PORT: 8080
+
 stages:
   - test
   - build
   - release
   - deploy
+
+deploy:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  script:
+    - kubectl apply -f k8s/deployment.yaml -n $K8S_NAMESPACE
+    - kubectl rollout status deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE
+  only:
+    - main

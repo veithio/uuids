@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $K8S_DEPLOYMENT
+  namespace: $K8S_NAMESPACE
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: $K8S_DEPLOYMENT
+  template:
+    metadata:
+      labels:
+        app: $K8S_DEPLOYMENT
+    spec:
+      containers:
+        - name: $K8S_PORT
+          image: $IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+          ports:
+            - containerPort: $K8S_PORT
